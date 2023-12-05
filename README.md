@@ -4,7 +4,7 @@ Rest Server is a high performance HTTP server that implements restic's REST back
 
 <img src="https://avatars.githubusercontent.com/u/10073512" width="80%" height="auto">
 
-github.com/restic/rest-server
+restic.net
 
 ## How to use this Makejail
 
