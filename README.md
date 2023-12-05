@@ -30,6 +30,12 @@ appjail cmd jexec rest-server create_user myuser
 appjail cmd jexec rest-server create_user myuser passwd321@
 ```
 
+### Deleting users
+
+```sh
+appjail cmd jexec rest-server delete_user myuser
+```
+
 ### Arguments
 
 * `restserver_noauth` (default: `0`): Disable authentication.
