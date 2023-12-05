@@ -1,0 +1,18 @@
+#!/bin/sh
+
+PASSWORD_FILE="/var/db/restserver/.htpasswd"
+
+username="$1"
+
+if [ -z "${username}" ]; then
+	echo "create_user username [password]"
+	exit 1
+fi
+
+password="$2"
+
+if [ -z "${password}" ]; then
+	htpasswd -B "${PASSWORD_FILE}" "${username}"
+else
+	htpasswd -B "${PASSWORD_FILE}" "${username}" "${password}"
+fi

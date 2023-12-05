@@ -1,0 +1,36 @@
+INCLUDE options/options.makejail
+
+ARG restserver_noauth=0
+ARG restserver_options?
+ARG restserver_tag=13.2
+
+FROM --entrypoint gh+AppJail-makejails/rest-server rest-server:${restserver_tag}
+
+CMD echo "======> Installing scripts ... <======"
+CMD mkdir -p /usr/local/bin
+COPY --verbose scripts/ /usr/local/bin
+
+RAW if [ "${restserver_noauth}" != 0 ]; then
+	CMD echo "======> Disabling authentication ... <======"
+	SYSRC "restserver_options=--no-auth --listen :8000"
+RAW else
+	CMD echo "======> Enabling authentication ... <======"
+	SYSRC "restserver_options=--listen :8000"
+
+	CMD echo "======> Creating password file ... <======"
+	CMD touch /var/db/restserver/.htpasswd
+
+	CMD echo "======> Changing password file permissions ... <======"
+	CMD chown restserver:restserver /var/db/restserver/.htpasswd
+RAW fi
+
+RAW if [ -n "${restserver_options}" ]; then
+	CMD echo "======> Adding additional options ... <======"
+	SYSRC "restserver_options+=${restserver_options}"
+RAW fi
+
+CMD echo "======> Enabling rest-server ... <======"
+SYSRC restserver_enable=YES
+
+CMD echo "======> Starting rest-server ... <======"
+SERVICE restserver start

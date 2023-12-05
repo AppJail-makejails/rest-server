@@ -1,0 +1,3 @@
+INCLUDE options/options.makejail
+
+PKG rest-server apache24
