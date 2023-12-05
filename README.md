@@ -18,6 +18,7 @@ appjail makejail \
     -f gh+AppJail-makejails/rest-server \
     -o virtualnet=":<random> default" \
     -o nat \
+    -o expose=8000 \
     -o fstab="$PWD/volumes/rest-server /var/db/restserver"
 ```
 
