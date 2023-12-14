@@ -1,0 +1,1 @@
+OPTION volume=rest-server-db mountpoint:/var/db/restserver owner:239 group:239
