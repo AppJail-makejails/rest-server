@@ -43,6 +43,12 @@ appjail cmd jexec rest-server delete_user myuser
 * `restserver_options` (optional): Options to be passed to rest-server.
 * `restserver_tag` (default: `13.2`): See [#tags](#tags).
 
+### Volumes
+
+| Name            | Owner | Group | Perm | Type | Mountpoint         |
+| --------------- | ----- | ----- | ---- | ---- | ------------------ |
+| rest-server-db  | 239   | 239   |  -   |  -   | /var/db/restserver |
+
 ## Tags
 
 | Tag    | Arch     | Version        | Type   |
