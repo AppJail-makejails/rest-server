@@ -41,7 +41,7 @@ appjail cmd jexec rest-server delete_user myuser
 
 * `restserver_noauth` (default: `0`): Disable authentication.
 * `restserver_options` (optional): Options to be passed to rest-server.
-* `restserver_tag` (default: `13.2`): See [#tags](#tags).
+* `restserver_tag` (default: `13.3`): See [#tags](#tags).
 
 ### Volumes
 
@@ -53,5 +53,5 @@ appjail cmd jexec rest-server delete_user myuser
 
 | Tag    | Arch     | Version        | Type   |
 | ------ | -------- | -------------- | ------ |
-| `13.2` | `amd64`  | `13.2-RELEASE` | `thin` |
+| `13.3` | `amd64`  | `13.3-RELEASE` | `thin` |
 | `14.0` | `amd64`  | `14.0-RELEASE` | `thin` |
