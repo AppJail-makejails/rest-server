@@ -3,7 +3,7 @@ INCLUDE options/options.makejail
 ARG restserver_noauth=0
 ARG restserver_options?
 ARG restserver_ajspec=gh+AppJail-makejails/rest-server
-ARG restserver_tag=13.4
+ARG restserver_tag=%%TAG1%%
 
 FROM --entrypoint "${restserver_ajspec}" rest-server:${restserver_tag}
 
