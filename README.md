@@ -12,7 +12,6 @@ restic.net
 
 ```sh
 mkdir -p volumes/rest-server
-chown -f 239:239 volumes/rest-server
 appjail makejail \
     -j rest-server \
     -f gh+AppJail-makejails/rest-server \
