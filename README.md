@@ -2,9 +2,9 @@
 
 Rest Server is a high performance HTTP server that implements restic's REST backend API. It provides secure and efficient way to backup data remotely, using restic backup client via the rest: URL.
 
-<img src="https://avatars.githubusercontent.com/u/10073512" width="60%" height="auto">
-
 restic.net
+
+<img src="https://avatars.githubusercontent.com/u/10073512" width="30%" height="auto" alt="rest-server logo">
 
 ## How to use this Makejail
 
@@ -37,30 +37,31 @@ appjail cmd jexec rest-server create_user myuser passwd321@
 appjail cmd jexec rest-server delete_user myuser
 ```
 
-### Arguments
+### Arguments (stage: build)
 
-* `restserver_noauth` (default: `0`): Disable authentication.
-* `restserver_options` (optional): Options to be passed to rest-server.
 * `restserver_from` (default: `ghcr.io/appjail-makejails/rest-server`): Location of OCI image. See also [OCI Configuration](#oci-configuration).
 * `restserver_tag` (default: `latest`): OCI image tag. See also [OCI Configuration](#oci-configuration).
+* `restserver_noauth` (default: `0`): Disable authentication.
+* `restserver_options` (optional): Options to be passed to rest-server.
+
 
 ### Volumes
 
-| Name            | Owner     | Group     | Perm | Type | Mountpoint         |
-| --------------- | --------- | --------- | ---- | ---- | ------------------ |
-| rest-server-db  | `${puid}` | `${pgid}` |  -   |  -   | /var/db/restserver |
+| Name | Owner | Group | Perm | Type | Mountpoint |
+| --- | --- | --- | --- | --- | --- |
+| rest-server-db | `${puid}` | `${pgid}` | - | - | /var/db/restserver |
 
 ## OCI Configuration
 
 ```yaml
 build:
   variants:
-    - tag: 15.0
-      containerfile: Containerfile.pkg
+    - tag: 15.1
+      containerfile: Containerfile
       aliases: ["latest"]
       default: true
       args:
-        FREEBSD_RELEASE: "15.0"
+        FREEBSD_RELEASE: "15.1"
 ```
 
 ## Notes

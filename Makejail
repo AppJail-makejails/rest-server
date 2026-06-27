@@ -12,11 +12,7 @@ INCLUDE gh+AppJail-makejails/user-mapping
 
 CMD --local appjail oci set-user "${APPJAIL_JAILNAME}" noroot
 CMD --local appjail oci set-boot on "${APPJAIL_JAILNAME}"
-CMD chown noroot:noroot /var/db/restserver
-CMD for path in /var/db/restserver; do \
-        find "${path}" -user restserver -exec chown -h noroot {} +; \
-        find "${path}" -group restserver -exec chown -h :noroot {} +; \
-    done
+CMD chown -R noroot:noroot /var/db/restserver
 
 CMD echo "======> Installing scripts ... <======"
 CMD mkdir -p /usr/local/bin
