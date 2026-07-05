@@ -1,47 +1,5 @@
 ARG restserver_from=ghcr.io/appjail-makejails/rest-server
 ARG restserver_tag=latest
-ARG restserver_noauth=0
-ARG restserver_options?
 
-OPTION start
 OPTION overwrite=force
 OPTION from=${restserver_from}:${restserver_tag}
-OPTION volume=rest-server-db mountpoint:/var/db/restserver owner:${puid} group:${pgid}
-
-INCLUDE gh+AppJail-makejails/user-mapping
-
-CMD --local appjail oci set-user "${APPJAIL_JAILNAME}" noroot
-CMD --local appjail oci set-boot on "${APPJAIL_JAILNAME}"
-CMD chown -R noroot:noroot /var/db/restserver
-
-CMD echo "======> Installing scripts ... <======"
-CMD mkdir -p /usr/local/bin
-COPY --verbose scripts/ /usr/local/bin
-
-RAW if [ "${restserver_noauth}" != 0 ]; then
-	CMD echo "======> Disabling authentication ... <======"
-	SYSRC "restserver_options=--no-auth --listen :8000"
-RAW else
-	CMD echo "======> Enabling authentication ... <======"
-	SYSRC "restserver_options=--listen :8000"
-
-	CMD echo "======> Creating password file ... <======"
-	CMD touch /var/db/restserver/.htpasswd
-
-	CMD echo "======> Changing password file permissions ... <======"
-	CMD chown noroot:noroot /var/db/restserver/.htpasswd
-RAW fi
-
-RAW if [ -n "${restserver_options}" ]; then
-	CMD echo "======> Adding additional options ... <======"
-	SYSRC "restserver_options+=${restserver_options}"
-RAW fi
-
-CMD echo "======> Configuring rest-server to run as 'noroot' ... <======"
-SYSRC restserver_user=noroot
-
-CMD echo "======> Enabling rest-server ... <======"
-SYSRC restserver_enable=YES
-
-CMD echo "======> Starting rest-server ... <======"
-SERVICE restserver start

@@ -1,7 +1,5 @@
 #!/bin/sh
 
-PASSWORD_FILE="/var/db/restserver/.htpasswd"
-
 username="$1"
 
 if [ -z "${username}" ]; then

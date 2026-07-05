@@ -10,46 +10,56 @@ restic.net
 
 ### Basic usage
 
-```sh
-mkdir -p volumes/rest-server
-appjail makejail \
-    -j rest-server \
-    -f gh+AppJail-makejails/rest-server \
+```console
+$ mkdir -p /var/appjail-volumes/rest-server/data
+$ appjail oci run -Pd \
+    -o overwrite=force \
     -o virtualnet=":<random> default" \
     -o nat \
-    -o expose=8000 \
-    -o fstab="$PWD/volumes/rest-server /var/db/restserver" \
-    -o container="args:--pull"
+    -o container="args:--pull" \
+    -o fstab="/var/appjail-volumes/rest-server/data /data" \
+    ghcr.io/appjail-makejails/rest-server rest-server
 ```
 
 ### Adding users
 
-```sh
-# Password from prompt.
-appjail cmd jexec rest-server create_user myuser
-# Read password from command line.
-appjail cmd jexec rest-server create_user myuser passwd321@
+**Password from prompt**:
+
+```console
+$ appjail oci exec rest-server create_user myuser passwd321@
+```
+
+**Read password from command line**:
+
+```console
+$ appjail oci exec rest-server create_user myuser
 ```
 
 ### Deleting users
 
-```sh
-appjail cmd jexec rest-server delete_user myuser
+```console
+$ appjail oci exec rest-server delete_user myuser
 ```
 
 ### Arguments (stage: build)
 
 * `restserver_from` (default: `ghcr.io/appjail-makejails/rest-server`): Location of OCI image. See also [OCI Configuration](#oci-configuration).
 * `restserver_tag` (default: `latest`): OCI image tag. See also [OCI Configuration](#oci-configuration).
-* `restserver_noauth` (default: `0`): Disable authentication.
-* `restserver_options` (optional): Options to be passed to rest-server.
 
+### Environment (OCI image)
+
+* `DATA_DIRECTORY` (default: `/data`): Data volume location.
+* `DISABLE_AUTHENTICATION` (optional): By default, the image uses authentication. To turn it off, set this environment variable to any value.
+* `OPTIONS` (optional): You can set this environment variable to any extra flags you'd like to pass to rest-server.
+* `PASSWORD_FILE` (default: `/data/.htpasswd`): By default, the image loads the `.htpasswd` file from the persistent data volume (i.e. from `/data/.htpasswd`). To change the location of this file, set the environment variable `PASSWORD_FILE` to the path of the `.htpasswd` file. Please note that this path must be accessible from inside the container and should be persisted. This is normally done by `nullfs(4)`-mounting a path into the container or with another appjail volume.
+* `PGID` (optional): Equivalent to `PUID` but for the Process Group ID.
+* `PUID` (default: `1000`): Process User ID for the container's main process, allowing you to match the owner of files written to mounted host volumes to your host system's user. Writable volumes are changed based on this environment variable.
 
 ### Volumes
 
 | Name | Owner | Group | Perm | Type | Mountpoint |
 | --- | --- | --- | --- | --- | --- |
-| rest-server-db | `${puid}` | `${pgid}` | - | - | /var/db/restserver |
+| appjail-263aca83a3-data | `${PUID}` | `${PGID}` | - | - | /data |
 
 ## OCI Configuration
 
@@ -62,8 +72,6 @@ build:
       default: true
       args:
         FREEBSD_RELEASE: "15.1"
+        NO_PKGCLEAN: "1"
+      cache_dirs: ["pkgcache0:/var/cache/pkg"]
 ```
-
-## Notes
-
-1. This Makejail includes [gh+AppJail-makejails/user-mapping](https://github.com/AppJail-makejails/user-mapping).
