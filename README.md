@@ -52,7 +52,7 @@ $ appjail oci exec rest-server delete_user myuser
 * `DISABLE_AUTHENTICATION` (optional): By default, the image uses authentication. To turn it off, set this environment variable to any value.
 * `OPTIONS` (optional): You can set this environment variable to any extra flags you'd like to pass to rest-server.
 * `PASSWORD_FILE` (default: `/data/.htpasswd`): By default, the image loads the `.htpasswd` file from the persistent data volume (i.e. from `/data/.htpasswd`). To change the location of this file, set the environment variable `PASSWORD_FILE` to the path of the `.htpasswd` file. Please note that this path must be accessible from inside the container and should be persisted. This is normally done by `nullfs(4)`-mounting a path into the container or with another appjail volume.
-* `PGID` (optional): Equivalent to `PUID` but for the Process Group ID.
+* `PGID` (default: `1000`): Equivalent to `PUID` but for the Process Group ID.
 * `PUID` (default: `1000`): Process User ID for the container's main process, allowing you to match the owner of files written to mounted host volumes to your host system's user. Writable volumes are changed based on this environment variable.
 
 ### Volumes
