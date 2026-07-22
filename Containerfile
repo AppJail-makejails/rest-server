@@ -16,10 +16,12 @@ RUN set -xe; \
     pkg update; \
     pkg install -U FreeBSD-utilities; \
     pkg install -U rest-server apache24; \
+    \
     if [ -z "${NO_PKGCLEAN}" ]; then \
         pkg clean -a; \
-        rm -rf /var/cache/pkg/* /var/db/pkg/repos/*; \
-    fi
+        rm -rf /var/cache/pkg/*; \
+    fi; \
+    rm -rf /var/db/pkg/repos/*
 
 ENV DATA_DIRECTORY /data
 ENV PASSWORD_FILE /data/.htpasswd
