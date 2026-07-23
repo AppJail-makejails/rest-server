@@ -1,4 +1,4 @@
-ARG restserver_from=ghcr.io/appjail-makejails/rest-server
+ARG restserver_from=ghcr.io/appjail-makejails/restserver
 ARG restserver_tag=latest
 
 OPTION overwrite=force
