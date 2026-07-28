@@ -14,7 +14,6 @@ LABEL org.opencontainers.image.title="Rest Server" \
 RUN set -xe; \
     \
     pkg update; \
-    pkg install -U FreeBSD-utilities; \
     pkg install -U rest-server apache24; \
     \
     if [ -z "${NO_PKGCLEAN}" ]; then \
