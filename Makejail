@@ -1,5 +1,6 @@
 ARG restserver_from=ghcr.io/appjail-makejails/restserver
 ARG restserver_tag=latest
 
+OPTION container=boot
 OPTION overwrite=force
 OPTION from=${restserver_from}:${restserver_tag}
