@@ -24,6 +24,6 @@ fi
 
 create_user
 
-chown -R noroot:noroot "${DATA_DIRECTORY}"
+change_owner "${DATA_DIRECTORY}"
 
 exec su-exec noroot rest-server --path "${DATA_DIRECTORY}" --htpasswd-file "${PASSWORD_FILE}" ${OPTIONS}
