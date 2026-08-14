@@ -14,7 +14,7 @@ LABEL org.opencontainers.image.title="Rest Server" \
 RUN set -xe; \
     \
     pkg update; \
-    pkg install -U rest-server apache24; \
+    pkg install rest-server apache24; \
     \
     if [ -z "${NO_PKGCLEAN}" ]; then \
         pkg clean -a; \
